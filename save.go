@@ -16,7 +16,7 @@ func saveContent(kind, filename, content string) {
 		return
 	}
 
-	if err := ioutil.WriteFile(p, []byte(content), 0777); err != nil {
+	if err := ioutil.WriteFile(p, []byte(content), 0644); err != nil {
 		log.WithError(err).Error("Unable to write content")
 	}
 }
