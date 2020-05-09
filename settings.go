@@ -19,7 +19,7 @@ var (
 type Settings struct {
 	ClientID          string `yaml:"client_id"`
 	ClientSecret      string `yaml:"client_secret"`
-	RedirectURL       string `yaml:"redirect_Url"`
+	RedirectURL       string `yaml:"redirect_url"`
 	VerificationToken string `yaml:"verification_token"`
 	WebserverPort     string `yaml:"webserver_port"`
 }
