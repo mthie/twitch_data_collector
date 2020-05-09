@@ -39,7 +39,7 @@ func main() {
 	}()
 
 	log.Info("Starting webserver...")
-	log.Fatal(http.ListenAndServe(":8083", mux))
+	log.Fatal(http.ListenAndServe(":"+settings.WebserverPort, mux))
 }
 
 func handleSaves() {

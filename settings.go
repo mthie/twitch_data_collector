@@ -20,6 +20,7 @@ type Settings struct {
 	ClientID          string `yaml:"client_id"`
 	ClientSecret      string `yaml:"client_secret"`
 	VerificationToken string `yaml:"verification_token"`
+	WebserverPort     string `yaml:"webserver_port"`
 }
 
 func loadSettings() {
