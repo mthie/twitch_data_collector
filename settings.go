@@ -19,6 +19,7 @@ var (
 type Settings struct {
 	ClientID          string `yaml:"client_id"`
 	ClientSecret      string `yaml:"client_secret"`
+	RedirectURL       string `yaml:"redirect_Url"`
 	VerificationToken string `yaml:"verification_token"`
 	WebserverPort     string `yaml:"webserver_port"`
 }
@@ -40,7 +41,7 @@ func loadSettings() {
 	settings = s
 
 	twitchOauthConfig = &oauth2.Config{
-		RedirectURL:  "http://localhost:8080/callback",
+		RedirectURL:  settings.RedirectURL,
 		ClientID:     settings.ClientID,
 		ClientSecret: settings.ClientSecret,
 		Scopes:       []string{"channel:read:subscriptions", "user:read:broadcast", "chat:read", "chat:edit", "channel_read", "channel_editor", "channel_subscriptions", "channel:moderate", "bits:read", "channel:read:redemptions"},
