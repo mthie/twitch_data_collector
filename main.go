@@ -94,7 +94,6 @@ func twitchAuthToToken(state string, code string, w http.ResponseWriter, r *http
 
 	token, err := twitchOauthConfig.Exchange(timeoutCtx, code, oauth2.AccessTypeOffline)
 	if err != nil {
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		log.WithError(err).Error("code exchange failed")
 		return
 	}
