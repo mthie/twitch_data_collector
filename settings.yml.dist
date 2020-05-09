@@ -2,4 +2,4 @@ client_id: "your twitch client id"
 client_secret: "your twitch client secret"
 verification_token: "a random string!"
 webserver_port: 8080
-redirect_url:  "http://localhost:8080/callback",
+redirect_url: "http://localhost:8080/callback"
