@@ -31,9 +31,14 @@ func main() {
 	})
 
 	go func() {
-		handleSaves()
+		if user != nil {
+			handleSaves()
+		}
 		c := time.Tick(20 * time.Second)
 		for range c {
+			if user == nil {
+				continue
+			}
 			handleSaves()
 		}
 	}()
