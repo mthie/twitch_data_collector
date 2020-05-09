@@ -2,7 +2,7 @@
 Collect your channel's data from Twitch
 
 # Quickstart
-Make empty .users.json (move .users.json.dist to .users.json) 
+
 Move settings.yml.dist to settings.yml and set the Params
 
 Create app in Twitch Dev Console
