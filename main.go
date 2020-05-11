@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"time"
 
@@ -24,8 +25,21 @@ func main() {
 	log.Infof("User: %+v", user)
 
 	mux := gorilla.NewRouter()
+	mux.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	mux.HandleFunc("/login", handleTwitchLogin)
 	mux.HandleFunc("/callback", handleTwitchCallback)
+	mux.HandleFunc("/data", func(w http.ResponseWriter, r *http.Request) {
+		if user == nil {
+			http.NotFound(w, r)
+			return
+		}
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		if err := json.NewEncoder(w).Encode(user.getWebUser()); err != nil {
+			log.WithError(err).Error("Unable to encode user data")
+			http.Error(w, "Unable to encode user data", http.StatusInternalServerError)
+			return
+		}
+	})
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hi!"))
 	})

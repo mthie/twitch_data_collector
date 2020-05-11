@@ -17,6 +17,17 @@ var (
 	user *User
 )
 
+type WebUser struct {
+	ID                  string
+	Name                string
+	DisplayName         string
+	TwitchUser          *TwitchUser          `json:"User"`
+	TwitchChannel       *TwitchChannel       `json:"Channel"`
+	TwitchFollowers     *TwitchFollowers     `json:"Followers"`
+	TwitchSubscriptions *TwitchSubscriptions `json:"Subscriptions"`
+	TwitchStream        *TwitchStream        `json:"Stream"`
+}
+
 type User struct {
 	ID                  string
 	Name                string
@@ -57,6 +68,19 @@ func createUser(token *oauth2.Token) (*User, error) {
 	u.DisplayName = u.TwitchUser.DisplayName
 
 	return u, nil
+}
+
+func (u *User) getWebUser() *WebUser {
+	return &WebUser{
+		ID:                  u.ID,
+		Name:                u.Name,
+		DisplayName:         u.DisplayName,
+		TwitchUser:          u.TwitchUser,
+		TwitchChannel:       u.TwitchChannel,
+		TwitchFollowers:     u.TwitchFollowers,
+		TwitchSubscriptions: u.TwitchSubscriptions,
+		TwitchStream:        u.TwitchStream,
+	}
 }
 
 func getUser(u *User) error {
