@@ -13,7 +13,7 @@ function TwitchCollector(interval = 2e4) {
   function _update(data) {
     _data = data;
 
-    for (let hook of _hooks.update) {
+    for (const hook of _hooks.update) {
       hook(data);
     }
   }
