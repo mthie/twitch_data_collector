@@ -1,46 +1,41 @@
-var twitchCollector = {
-    updateHooks: [],
-    data: null,
+function TwitchCollector(interval = 2e4) {
+  const _hooks = {
+    update: []
+  };
+  let _data = null;
 
+  async function _getData() {
+    const response = await fetch('/data');
+    const data = await response.json();
+    _update(data);
+  }
 
-    update: function(data) {
-        this.data = data;
-        var that = this;
-        this.updateHooks.forEach(function(v) {
-            v(that.data);
-        });
-    },
+  function _update(data) {
+    _data = data;
 
-    registerHook: function(kind, callback) {
-        switch (kind) {
-            case "update":
-                this.updateHooks.push(callback);
-                break;
-        }
-    },
-
-    start: function() {
-        this.getData();
-        var that = this;
-        window.setInterval(function() {
-            that.getData()
-        }, 20000);
-    },
-
-    getData: function() {
-        let xmlhttp = new XMLHttpRequest();
-        let url = "/data";
-        var that = this;
-
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                let data = JSON.parse(this.responseText);
-                if (data !== null) {
-                    that.update(data);
-                }
-            }
-        };
-        xmlhttp.open("GET", url, true);
-        xmlhttp.send();
+    for (let hook of _hooks.update) {
+      hook(data);
     }
+  }
+
+  function registerHooks(kind, callback) {
+    if (kind in _hooks) {
+      _hooks.kind.push(callback);
+    }
+  }
+
+  function data() {
+    return _data;
+  }
+
+  async function start() {
+    await _getData();
+    setInterval(_getData, interval);
+  }
+
+  return {
+    data,
+    registerHooks,
+    start
+  };
 }
