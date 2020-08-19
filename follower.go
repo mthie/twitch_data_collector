@@ -30,7 +30,7 @@ type TwitchFollower struct {
 	FollowedAt time.Time `json:"followed_at"`
 }
 
-func getFollows(u *User) {
+func getFollows(u *User, max int) {
 	result := &TwitchFollowers{}
 
 	after := ""
@@ -64,6 +64,11 @@ func getFollows(u *User) {
 		if t.Pagination == nil || t.Pagination.Cursor == "" {
 			break
 		}
+
+		if max > -1 && len(result.Data) >= max {
+			break
+		}
+
 		after = "&after=" + t.Pagination.Cursor
 	}
 

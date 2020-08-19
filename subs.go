@@ -37,7 +37,7 @@ type TwitchSubUser struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-func getSubs(u *User) {
+func getSubs(u *User, max int) {
 	result := &TwitchSubscriptions{}
 
 	limit := 100
@@ -74,6 +74,9 @@ func getSubs(u *User) {
 		result.Total = t.Total
 		result.Subscriptions = append(result.Subscriptions, t.Subscriptions...)
 
+		if max > -1 && len(result.Subscriptions) >= max {
+			break
+		}
 		offset += limit
 	}
 

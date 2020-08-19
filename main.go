@@ -48,7 +48,12 @@ func main() {
 		if user != nil {
 			handleSaves()
 		}
-		c := time.Tick(20 * time.Second)
+		interval := 20 * time.Second
+		if settings.UpdateInterval > 10*time.Second {
+			interval = settings.UpdateInterval
+		}
+		log.Infof("Update interval: %s", interval)
+		c := time.Tick(interval)
 		for range c {
 			if user == nil {
 				continue
@@ -77,12 +82,22 @@ func handleSaves() {
 		user.TwitchChannel.SaveFiles()
 	}
 
-	getFollows(user)
+	maxFollower := -1
+	if settings.MaxFollowers > 0 {
+		maxFollower = settings.MaxFollowers
+	}
+	log.Infof("Fetch max follower: %d", maxFollower)
+	getFollows(user, maxFollower)
 	if user.TwitchFollowers != nil {
 		user.TwitchFollowers.SaveFiles()
 	}
 
-	getSubs(user)
+	maxSubs := -1
+	if settings.MaxSubs > 0 {
+		maxSubs = settings.MaxSubs
+	}
+	log.Infof("Fetch max subs: %d", maxSubs)
+	getSubs(user, maxSubs)
 	if user.TwitchSubscriptions != nil {
 		user.TwitchSubscriptions.SaveFiles()
 	}

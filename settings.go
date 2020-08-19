@@ -17,11 +17,14 @@ var (
 )
 
 type Settings struct {
-	ClientID          string `yaml:"client_id"`
-	ClientSecret      string `yaml:"client_secret"`
-	RedirectURL       string `yaml:"redirect_url"`
-	VerificationToken string `yaml:"verification_token"`
-	WebserverPort     string `yaml:"webserver_port"`
+	ClientID          string        `yaml:"client_id"`
+	ClientSecret      string        `yaml:"client_secret"`
+	MaxFollowers      int           `yaml:"max_followers"`
+	MaxSubs           int           `yaml:"max_subs"`
+	RedirectURL       string        `yaml:"redirect_url"`
+	UpdateInterval    time.Duration `yaml:"update_interval"`
+	VerificationToken string        `yaml:"verification_token"`
+	WebserverPort     string        `yaml:"webserver_port"`
 }
 
 func loadSettings() {
